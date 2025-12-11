@@ -9,7 +9,7 @@ class AssetTable(Base):
     symbol = Column(String,unique=True)
     quantity = Column(Numeric)
     average_buy_price = Column(Numeric)
-    snapshot = relationship("PriceSnapshot",back_populates="asset")
+    snapshot = relationship("PriceSnapshotTable",back_populates="asset")
 
 class PriceSnapshotTable(Base):
     __tablename__ = "PriceSnapshot"
@@ -17,5 +17,5 @@ class PriceSnapshotTable(Base):
     price = Column(Numeric)
     timestamp  = Column(DateTime,index=True)
     asset_id = Column(Integer,ForeignKey('Asset.id'))
-    asset = relationship("Asset",back_populates="snapshot")
+    asset = relationship("AssetTable",back_populates="snapshot")
     

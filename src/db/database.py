@@ -10,6 +10,16 @@ Base = declarative_base()
 
 sql_url = settings.database_url 
 
+async def create_all_tables():
+    if engine is None:
+        logger.error("Cannot create tables: Async Engine is not initialized.")
+        return
+
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+        
+    logger.info("Database tables created successfully.")
+
 try:
     engine = create_async_engine(sql_url, echo=False, pool_size=50) 
 
